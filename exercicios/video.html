@@ -1,0 +1,59 @@
+<h1>Vídeo</h1>
+<video id="meuVideo" width="800" height="450" controls autoplay controlsList="nodownload">
+    <!--controls: faz a barra de controle do video aparecer-->
+    <!-- autoplay: faz o play comecar automaticamente-->
+    <!-- controlsList="nodownload": impede que o dawloand seja feito-->
+    
+    <source src="http://files.cod3r.com.br/curso-web/video.mp4" type="video/mp4">
+    Seu browser não suporta a tag de vídeo.
+</video>
+
+<div wm-progresso="meuVideo" class="progresso">
+    <div></div>
+</div>
+
+<!-- a div abaixo faz os botão aparece, ,as sem conseguir executar sua função-->
+<div>
+    <button wm-play="meuVideo">Play</button>
+    <button wm-pause="meuVideo">Pause</button>
+</div>
+
+<style>
+    /*faz a barra que mostra o progesso aparece com seu visual */
+    
+    .progresso {
+        height: 20px;
+        width: 500px;
+        border: solid 1px #444;
+        margin: 20px;
+    }
+    
+    .progresso>div {
+        /* faz a barra de progresso ir prenchendo de vermelho quando aplicado o javascrip */
+        background-color: red;
+        color: #fff;
+        height: 100%;
+        text-align: right;
+        font-size: 14px;
+        width: 0%;
+    }
+</style>
+
+<script>
+    function configurarVideo(id) {
+        const video = document.getElementById(id) // ta id pq usamos isso oara definir o video la encima
+        video.oncontextmenu = () => false // impede que o menu de texto apareça quamndo clica com mouse no video
+
+        document.querySelector(`[wm-play=${id}]`).onclick = e => video.play() // faz que o botão play funcione
+        document.querySelector(`[wm-pause=${id}]`).onclick = e => video.pause() // faz que o pause play funcione
+
+        setInterval(() => {
+                const percentual = (video.currentTime / video.duration) * 100 // pegar % atual pela duração do video e multiplica por 100 respectivamente
+                const valorDiv = document.querySelector(`[wm-progresso=${id}] > div`) // seleciona o lugar para mostra a porcentagem
+                valorDiv.style.width = `${percentual}%` // aqui passa o % para ser mostrado
+                valorDiv.innerHTML = `${percentual.toFixed(1)}%` // aqui fixa que tera um casa depois da virgula apenas
+            }, 500) // passou a velocidade que essa função sera calculada
+    }
+
+    configurarVideo('meuVideo')
+</script>

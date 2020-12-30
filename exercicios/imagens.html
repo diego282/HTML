@@ -1,0 +1,105 @@
+<h1>IMAGENS</h1>
+<div wm-slider>
+    <p>
+        <img src="D:\Downloads\imagem1.jpg" alt="Muro da Cidade" width="513" height="342" title="Muro da Cidade por Tarso Bessa">
+
+    </p>
+    <!-- as imagens so aparecem ser tiver no formato jpg -->
+    <p>
+        <img src="D:/Downloads/imagem4.gif" alt="Intro trabalho cientifico" height="342">
+    </p>
+
+    <p class="circular">
+        <img src="D:\Downloads\imagem5.png " alt="Rio de Janeiro " height="342 ">
+    </p>
+
+    <p class="texto">
+        <img src="D:\Downloads\imagem2.jpg " alt="Avatar" height="50" align="left"> texto avatar foi uma grande franquia do cinema durante muito anos, sendo o filme com maior bilheteria ate o ano de 2019, quando Vingadores Ultimato da Marvel desbancou
+        com louvou e assumiu esse cargo :)
+    </p>
+
+    <p class="cidade"></p>
+
+    <!--<p> abaixo faz que a imagem mude de acordo com o tamanho da sua tela de execucão com um parametro definido-->
+    <p>
+        <picture>
+            <source srcset="D:\Downloads\imagem4.gif" media="(min-width: 600px">
+            <img src="D:\Downloads\imagem2.jpg" alt="Avatar">
+        </picture>
+    </p>
+</div>
+
+<style>
+    p {
+        position: absolute;
+        display: none;
+    }
+    /* no circular aplica um visualr redondo na imagem*/
+    
+    .circular {
+        width: 513px;
+        background-color: #444;
+    }
+    
+    .texto {
+        width: 400px;
+    }
+    
+    .texto img {
+        margin-right: 10px;
+    }
+    /*aqui cidade em Css aplicamos um imagem atraves do Css */
+    
+    .cidade {
+        width: 513px;
+        height: 342px;
+        background-image: url("D:/Downloads/imagem3.jpg ");
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 200%;
+    }
+</style>
+
+<script>
+    function mover(elemento, inicio, fim, passo, callback) {
+        // clalback metodo da api que para a função
+        const novoInicio = inicio - passo // aqui anda de acordo com o passo passado
+        if (novoInicio >= fim) { // aqui verifica ser novo inicio e maior que fim
+            elemento.style.left = novoInicio + 'px' // aqui faz mover para a esquerda a imagem
+            setTimeout(() => mover(elemento, novoInicio, fim, passo, callback), 7) // aqui chama a função para fazer essa movimentação de acordo com o numero passado. no nosso caso 7=milisegundo
+        } else {
+            callback()
+        }
+    }
+    // const p = document.querySelector('[wm-slider] > p')
+    // p.style.display = 'block' // faz p aparecerna tela
+    // mover(p, 1500, -520, 5, () => {
+    //    console.log('Terminou!!!')
+    // })
+    function slider() {
+        const elementos = document.querySelectorAll('[wm-slider] > p')
+        const slides = Array.from(elementos)
+        exibirSlide(slides, slides[0])
+    }
+
+    function exibirSlide(slides, slide) {
+        slide.style.display = 'block' // faz aparecer na tela
+
+        const inicio = innerWidth // innerWidth: faz comecar da largura da pagina
+        const fim = -slide.clientWidth // clientWidth: faz terminar no outro extremo da pagina
+
+        slide.style.left = `${inicio}px`
+
+        mover(slide, inicio, fim, 5, () => {
+            slide.style.display = 'none' // faz ficar invisivel aq
+            exibirSlide(slides, getProximo(slides, slide))
+        })
+    }
+
+    function getProximo(lista, atual) {
+        const i = lista.indexOf(atual) + 1 // aqui achar o proximo intem
+        return i < lista.length ? lista[i] : lista[0] // faz que as imagem seja passadas sem pausa do ultimo volta para o primeiro
+    }
+
+    slider()
+</script>
